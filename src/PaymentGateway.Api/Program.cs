@@ -1,15 +1,34 @@
-using PaymentGateway.Api.Services;
+using AutoMapper;
+
+using PaymentGateway.Repositories;
+using PaymentGateway.Repositories.Clients;
+using PaymentGateway.Repositories.Interfaces;
+using PaymentGateway.Services;
+using PaymentGateway.Services.Interfaces;
+using PaymentGateway.Services.Models;
+using PaymentGateway.Services.Models.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<PaymentsRepository>();
+builder.Services.AddSingleton<IPaymentRepository, PaymentRepository>();
+builder.Services.AddSingleton<IPaymentService, PaymentService>();
+builder.Services.AddSingleton<IPaymentRequestValidator, PaymentRequestValidator>();
+builder.Services.AddSingleton<IBankAPiClient, BankApiClient>();
+builder.Services.AddSingleton<IBankService, BankService>();
+builder.Services.AddSingleton<IMerchantRepository, MerchantRepository>();
+builder.Services.AddSingleton<IMerchantService, MerchantService>();
+
+var mapperConfig = new MapperConfiguration(cfg =>
+{
+    cfg.CreateMap<PaymentResponse, PaymentGateway.Repositories.Models.PaymentResponse>();
+}, new LoggerFactory());
+builder.Services.AddSingleton(mapperConfig.CreateMapper());
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
@@ -19,6 +38,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 

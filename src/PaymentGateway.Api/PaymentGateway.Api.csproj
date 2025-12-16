@@ -10,4 +10,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\PaymentGateway.Common\PaymentGateway.Common.csproj" />
+    <ProjectReference Include="..\..\PaymentGateway.Repositories.Interfaces\PaymentGateway.Repositories.Interfaces.csproj" />
+    <ProjectReference Include="..\..\PaymentGateway.Repositories\PaymentGateway.Repositories.csproj" />
+    <ProjectReference Include="..\..\PaymentGateway.Services.Interfaces\PaymentGateway.Services.Interfaces.csproj" />
+    <ProjectReference Include="..\..\PaymentGateway.Services.Models\PaymentGateway.Services.Models.csproj" />
+    <ProjectReference Include="..\..\PaymentGateway.Services\PaymentGateway.Services.csproj" />
+  </ItemGroup>
+
 </Project>
